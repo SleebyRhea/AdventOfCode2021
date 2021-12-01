@@ -28,7 +28,7 @@ Solution 1, "day1_depths.input", [[
 ]], =>
   count,last,doc = -1,0,nil
 
-  with f = assert open(@file, "r"), "Failed to open input file #{@file}!"
+  with assert open(@file, "r"), "Failed to open input file #{@file}!"
     doc = \read("*a")
     assert \close!, "Failed to close #{@file}!"
 
@@ -39,7 +39,7 @@ Solution 1, "day1_depths.input", [[
     count +=1 if number > last
     last = number
 
-  count
+  return count
 
 Solution 1, "day1_depths.input", [[
   Your goal now is to count the number of times the sum of measurements in
@@ -70,14 +70,14 @@ Solution 1, "day1_depths.input", [[
 ]], =>
   a,b,c = nil,nil,nil
   load_number = (n) ->
-    ok, n = pcall( -> tonumber n)
+    ok, n = pcall -> tonumber n
     return nil unless ok
     a,b,c = b,c,n
     true
   
   last,count,doc = 0,-1,doc
 
-  with f = assert open(@file, "r"), "Failed to open input file #{@file}!"
+  with assert open(@file, "r"), "Failed to open input file #{@file}!"
     doc = \read("*a")
     assert \close!, "Failed to close #{@file}!"
 
@@ -88,4 +88,4 @@ Solution 1, "day1_depths.input", [[
       count += 1 if door > last
       last = door
 
-  count
+  return count
