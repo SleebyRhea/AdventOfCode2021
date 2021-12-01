@@ -17,6 +17,8 @@ assert_bln = (b, err) -> b if assert (type(b) == 'boolean'), err
 assert_usr = (u, err) -> u if assert (type(u) == 'userdata'), err
 assert_fun = (f, err) -> f if assert (type(f) == 'function'), err
 
+
+export Answer
 class Answer
   answers = nil
   new: (_day, _file, _problem, _func) =>
@@ -40,4 +42,11 @@ class Answer
           print ansi ">%{reset} %{bright green underline}#{a\get!}%{reset}"
     
   get: => @func!
-{ :Answer }
+
+for f in lfs.dir"days"
+  continue if f == "." or f == ".."
+  continue unless f\match("day%d+.moon")
+  name = f\gsub("\.moon$","")
+  require"days/#{name}"
+
+Answer\GetAll!

@@ -1,10 +1,8 @@
+Answer = Answer or -> "Dont run this directly"
+
 import
   open
   from io
-
-import
-  Answer
-  from require"adventofcode"
 
 Answer 1, "day1_depths.input", [[
   ...
@@ -82,5 +80,3 @@ Answer 1, "day1_depths.input", [[
       last = door
 
   count
-
-Answer\GetAll!
