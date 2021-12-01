@@ -1,3 +1,10 @@
+#!/usr/bin/env moon
+-- AdventOfCode.moon
+--  Implements a simple class that makes Question/Answer
+--  definitions even easier. Sources all day*.moon files
+--  in the local days directory, and expects input files
+--  to be in the local input directory.
+
 ok = pcall ->
   require"lfs"
   require"ansicolors"
