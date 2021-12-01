@@ -5,18 +5,28 @@ import
   from io
 
 Solution 1, "day1_depths.input", [[
-  ...
-  The first order of business is to figure out how quickly the depth increases,
-  just so you know what you're dealing with - you never know if the keys will
-    get carried into deeper water by an ocean current or a fish or something.
+  The first order of business is to figure out how quickly the depth
+  increases, just so you know what you're dealing with - you never know if
+  the keys will get carried into deeper water by an ocean current or a fish
+   or something.
 
-  To do this, count the number of times a depth measurement increases from the
-  previous measurement. (There is no measurement before the first measurement.)
+  To do this, count the number of times a depth measurement increases from
+  the previous measurement. (There is no measurement before the first
+  measurement.)
+  
   In the example above, the changes are as follows:
+    199 (N/A - no previous measurement)
+    200 (increased)
+    208 (increased)
+    210 (increased)
+    200 (decreased)
+    207 (increased)
+    240 (increased)
+    269 (increased)
+    260 (decreased)
+    263 (increased)
 ]], =>
-  count = -1
-  last  = 0
-  doc   = nil
+  count,last,doc = -1,0,nil
 
   with f = assert open(@file, "r"), "Failed to open input file #{@file}!"
     doc = \read("*a")
@@ -32,11 +42,10 @@ Solution 1, "day1_depths.input", [[
   count
 
 Solution 1, "day1_depths.input", [[
-  Your goal now is to count the number of times the sum of
-  measurements in this sliding window increases from the
-  previous sum. So, compare A with B, then compare B with C,
-  then C with D, and so on. Stop when there aren't enough
-  measurements left to create a new three-measurement sum.
+  Your goal now is to count the number of times the sum of measurements in
+  this sliding window increases from the previous sum. So, compare A with
+  B, then compare B with C, then C with D, and so on. Stop when there
+  aren't enough measurements left to create a new three-measurement sum.
 
   Example:
     199  A      
