@@ -6,7 +6,6 @@ import
 
 import
   Answer
-  GetAllAnswers
   from require"adventofcode"
 
 Answer 1, [[
