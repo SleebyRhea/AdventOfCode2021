@@ -8,7 +8,7 @@ import
   Answer
   from require"adventofcode"
 
-Answer 1, [[
+Answer 1, "day1_depths.input", [[
   ...
   The first order of business is to figure out how quickly the depth increases,
   just so you know what you're dealing with - you never know if the keys will
@@ -17,14 +17,14 @@ Answer 1, [[
   To do this, count the number of times a depth measurement increases from the
   previous measurement. (There is no measurement before the first measurement.)
   In the example above, the changes are as follows:
-]], ->
+]], =>
   count = -1
   last  = 0
   doc   = nil
 
-  with f = assert open("day1_depths.input", "r"), "Failed to open input file!"
+  with f = assert open(@file, "r"), "Failed to open input file #{@file}!"
     doc = \read("*a")
-    assert \close!, "Failed to close file!"
+    assert \close!, "Failed to close #{@file}!"
 
   for l in string.gmatch(doc, "%d+")
     ok, number = pcall -> tonumber(l)
@@ -36,7 +36,7 @@ Answer 1, [[
   count
 
 
-Answer 1, [[
+Answer 1, "day1_depths.input", [[
   Your goal now is to count the number of times the sum of
   measurements in this sliding window increases from the
   previous sum. So, compare A with B, then compare B with C,
@@ -63,7 +63,7 @@ Answer 1, [[
     F: 716 (increased)
     G: 769 (increased)
     H: 792 (increased)
-]], ->
+]], =>
   a,b,c = nil,nil,nil
   load_number = (n) ->
     ok, n = pcall( -> tonumber n)
@@ -73,9 +73,9 @@ Answer 1, [[
   
   last,count,doc = 0,-1,doc
 
-  with f = assert open("day1_depths.input", "r"), "Failed to open input file!"
+  with f = assert open(@file, "r"), "Failed to open input file #{@file}!"
     doc = \read("*a")
-    assert \close!, "Failed to close file!"
+    assert \close!, "Failed to close #{@file}!"
 
   for l in string.gmatch(doc, "%d+")
     continue unless load_number(l)
