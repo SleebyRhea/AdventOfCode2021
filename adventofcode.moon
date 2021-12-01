@@ -1,4 +1,4 @@
-ok, _ = pcall ->
+ok = pcall ->
   require"lfs"
   require"ansicolors"
 
@@ -17,9 +17,7 @@ assert_bln = (b, err) -> b if assert (type(b) == 'boolean'), err
 assert_usr = (u, err) -> u if assert (type(u) == 'userdata'), err
 assert_fun = (f, err) -> f if assert (type(f) == 'function'), err
 
-
-export Answer
-class Answer
+export class Answer
   answers = nil
   new: (_day, _file, _problem, _func) =>
     assert_num _day, "day must be a number (Got: #{_day})"
