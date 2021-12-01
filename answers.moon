@@ -23,7 +23,7 @@ Answer 1, [[
   doc   = nil
 
   with f = assert open("day1_depths.input", "r"), "Failed to open input file!"
-    doc = f\read("*a")
+    doc = \read("*a")
     assert \close!, "Failed to close file!"
 
   for l in string.gmatch(doc, "%d+")
@@ -74,7 +74,7 @@ Answer 1, [[
   last,count,doc = 0,-1,doc
 
   with f = assert open("day1_depths.input", "r"), "Failed to open input file!"
-    doc = f\read("*a")
+    doc = \read("*a")
     assert \close!, "Failed to close file!"
 
   for l in string.gmatch(doc, "%d+")
