@@ -64,7 +64,7 @@ Answer 1, [[
     G: 769 (increased)
     H: 792 (increased)
 ]], ->
-  a,b,c = -9999,-9999,-9999
+  a,b,c = nil,nil,nil
   load_number = (n) ->
     ok, n = pcall( -> tonumber n)
     return nil unless ok
@@ -79,8 +79,8 @@ Answer 1, [[
 
   for l in string.gmatch(doc, "%d+")
     continue unless load_number(l)
+    continue unless a and b and c
     with door = (a + b + c)
-      continue unless door >= 0
       count += 1 if door > last
       last = door
 
