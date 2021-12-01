@@ -1,9 +1,11 @@
 #!/usr/bin/env moon
--- AdventOfCode.moon
+--
+-- adventofcode.moon
 --  Implements a simple class that makes Question/Answer
 --  definitions even easier. Sources all day*.moon files
 --  in the local days directory, and expects input files
 --  to be in the local input directory.
+--
 
 ok = pcall ->
   require"lfs"
@@ -24,7 +26,7 @@ assert_bln = (b, err) -> b if assert (type(b) == 'boolean'), err
 assert_usr = (u, err) -> u if assert (type(u) == 'userdata'), err
 assert_fun = (f, err) -> f if assert (type(f) == 'function'), err
 
-export class Answer
+export class Solution
   answers = nil
   new: (_day, _file, _problem, _func) =>
     assert_num _day, "day must be a number (Got: #{_day})"
@@ -54,4 +56,4 @@ for f in lfs.dir"days"
   name = f\gsub("\.moon$","")
   require"days/#{name}"
 
-Answer\GetAll!
+Solution\GetAll!

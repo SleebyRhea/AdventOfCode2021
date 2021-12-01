@@ -1,10 +1,10 @@
-Answer = Answer or -> "Dont run this directly"
+Solution = Solution or -> "Dont run this directly"
 
 import
   open
   from io
 
-Answer 1, "day1_depths.input", [[
+Solution 1, "day1_depths.input", [[
   ...
   The first order of business is to figure out how quickly the depth increases,
   just so you know what you're dealing with - you never know if the keys will
@@ -31,7 +31,7 @@ Answer 1, "day1_depths.input", [[
 
   count
 
-Answer 1, "day1_depths.input", [[
+Solution 1, "day1_depths.input", [[
   Your goal now is to count the number of times the sum of
   measurements in this sliding window increases from the
   previous sum. So, compare A with B, then compare B with C,
