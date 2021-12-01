@@ -64,7 +64,7 @@ Answer 1, [[
     G: 769 (increased)
     H: 792 (increased)
 ]], ->
-  a,b,c,i = -9999,-9999,-9999,1
+  a,b,c = -9999,-9999,-9999
   load_number = (n) ->
     ok, n = pcall( -> tonumber n)
     return nil unless ok
