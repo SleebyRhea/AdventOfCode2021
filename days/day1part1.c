@@ -27,7 +27,6 @@ int main()
   FILE *file;
   file = fopen( __INPUT_FILE, "r");
 
-  printf("Starting ...\n");
   while ( !feof(file) )
   { c = fgetc(file);
 

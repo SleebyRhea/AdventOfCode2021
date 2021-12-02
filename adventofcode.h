@@ -4,7 +4,7 @@
 #include <unistd.h>
 
 #define __STRING_START_SIZE 1000
-#define __DEBUG 1
+//#define __DEBUG  1
 
 
 /**
