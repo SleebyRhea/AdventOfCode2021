@@ -30,7 +30,7 @@ Solution 2, "day2_paths.input", [[
 
   x, y = 0, 0
 
-  iter = (word, digit) ->
+  increment = (word, digit) ->
     assert (type(word) == 'string'), "Not a string"
     assert (type(digit) == 'number'), "Not a number (#{digit})"
 
@@ -47,7 +47,7 @@ Solution 2, "day2_paths.input", [[
   for word, digit in string.gmatch(doc, "(%w+)%s+(%d+)")
     ok, n = pcall -> tonumber(digit)
     continue if not ok or not word or not digit
-    iter word, n
+    increment word, n
   
   return x * y
 
@@ -90,7 +90,7 @@ Solution 2, "day2_paths.input", [[
 
   x, y, z = 0, 0, 0
 
-  iter = (word, digit) ->
+  increment = (word, digit) ->
     assert (type(word) == 'string'), "Not a string"
     assert (type(digit) == 'number'), "Not a number (#{digit})"
 
@@ -108,6 +108,6 @@ Solution 2, "day2_paths.input", [[
   for word, digit in string.gmatch(doc, "(%w+)%s+(%d+)")
     ok, n = pcall -> tonumber(digit)
     continue if not ok or not word or not digit
-    iter word, n
+    increment word, n
   
   return x * y
