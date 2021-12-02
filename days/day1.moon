@@ -1,4 +1,6 @@
-Solution = Solution or -> "Dont run this directly"
+Solution = Solution or ->
+  print"Dont run this directly"
+  os.exit 1
 
 import
   open

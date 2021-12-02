@@ -14,10 +14,13 @@ class Solution {
     if (!prob is String) Fiber.abort("prob must be a String (Got: %(prob))")
     if (!func is Number) Fiber.abort("func must be an Fn (Got: %(func))")
 
+    if (!__answers is List) __answers = {}
+    if (!__answers[day] is List) __answers[day] = {}
     
+
   }
 
   static GetAll {
-
+    
   }
 }
