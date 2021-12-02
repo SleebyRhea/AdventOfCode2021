@@ -6,7 +6,7 @@ import
   open
   from io
 
-Solution 2, "day2_paths.input", [[
+Solution 2, 1, "day2_paths.input", [[
   Your horizontal position and depth both start at 0. The steps above would
   then modify them as follows:
 
@@ -52,7 +52,7 @@ Solution 2, "day2_paths.input", [[
   return x * y
 
 
-Solution 2, "day2_paths.input", [[
+Solution 2, 2, "day2_paths.input", [[
   In addition to horizontal position and depth, you'll also need to track a
   third value, aim, which also starts at 0. The commands also mean something
    entirely different than you first thought:
