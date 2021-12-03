@@ -18,7 +18,7 @@ Main()
       (forward) x=$(expr $x + $n) ; y=$( expr $y + $( expr $z '*' $n) ) ;;
     esac
   done <"$FILE"
-  echo "$(expr $x '*' $y)"
+  expr $x '*' $y
 }
 
 Main "$@"

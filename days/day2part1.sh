@@ -19,7 +19,7 @@ Main()
     esac
 
   done <"$FILE"
-  echo "$(expr $x '*' $y)"
+  expr $x '*' $y
 }
 
 Main "$@"
