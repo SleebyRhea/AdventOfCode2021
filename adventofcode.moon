@@ -64,13 +64,13 @@ supported = nil
 
 do
   __found_or_missing = (bool) ->
-    if bool then return "%{bright green}found%{reset}"
-    return "%{bright red}missing%{reset}"
+    if bool then return "found"
+    return "missing"
 
   have_command = (command) ->
     _,_,exit = execute("command -v '#{command}'")
     status = __found_or_missing (exit == 0)
-    print ansi "%{yellow}[Init]%{reset} Checking for #{command} (#{status})"
+    print "[Init] Checking for #{command} (#{status})"
     return (exit == 0)
 
   can_support =
@@ -151,7 +151,7 @@ export class Solution
 
     for day, _ in ipairs answers
       for part, _ in ipairs answers[day]
-        print ansi "\n%{yellow}Day #{day}, part #{part}:"
+        print "\nDay #{day}, part #{part}:"
         for alt, _ in ipairs answers[day][part]
           a = answers[day][part][alt]
           filet = "moonscript"
@@ -159,21 +159,22 @@ export class Solution
             filet = "#{a.source}"
 
           out, err, _ = a\get!
+
           if type(out == 'string') and  string.len(out) == 0
             out = nil
 
           if not err
-            print ansi "(%{bright}Sln ##{alt}%{reset}/#{filet})>%{reset} %{bright green}#{out}%{reset}"
+            print "(Sln ##{alt}/#{filet})> #{out}"
             continue
 
           -- External program output
-          print ansi "(%{bright}Sln ##{alt}%{reset}/#{filet})>%{reset} %{bright green}#{out or "%{red}empty"}%{reset}"
+          --print "(Sln ##{alt}/#{filet})> #{out or "empty"}"
           if err != "" and err != nil
-            print ansi "%{bright red}\t#{err}%{reset}"
+            print "\t#{err}"
 
 
 get_supported_languages!
-init = '%{yellow}[Init]%{reset}'
+init = '[Init]'
 for f in lfs.dir"days"
   continue if f == "." or f == ".."
   continue unless f\match("day%d+.*$")
@@ -183,7 +184,7 @@ for f in lfs.dir"days"
 
   switch lang
     when "Moonscript"
-      print ansi "#{init} Importing #{f}"
+      print "#{init} Importing #{f}"
       name = f\gsub("%.moon$","")
       require"days/#{name}"
 
@@ -194,7 +195,7 @@ for f in lfs.dir"days"
       d, p, _ = f\match("day(%d+)part(%d+)n?%d-.sh$")
       continue unless d and p
 
-      print ansi "#{init} Creating runner for #{f}"
+      print "#{init} Creating runner for #{f}"
       sln = Solution tonumber(d), tonumber(p), nil, "extern",
         => execute"sh 'days/#{f}'"
       sln.source = f
@@ -204,7 +205,7 @@ for f in lfs.dir"days"
       d, p, _ = f\match("day(%d+)part(%d+)n?%d-.py$")
       continue unless d and p
 
-      print ansi "#{init} Creating runner for #{f}"
+      print "#{init} Creating runner for #{f}"
       sln = Solution tonumber(d), tonumber(p), nil, "extern",
         => execute"python3 'days/#{f}'"
       sln.source = f
@@ -214,7 +215,7 @@ for f in lfs.dir"days"
       d, p, _ = f\match("day(%d+)part(%d+)n?%d-.wren$")
       continue unless d and p
 
-      print ansi "#{init} Creating runner for #{f}"
+      print "#{init} Creating runner for #{f}"
       sln = Solution tonumber(d), tonumber(p), nil, "extern",
         => execute"wrenc 'days/#{f}'"
       sln.source = f
@@ -227,14 +228,14 @@ for f in lfs.dir"days"
       if not lfs.attributes"build"
         assert lfs.mkdir"build", "failed to make build"
 
-      print ansi "%{yellow}[Init]%{reset} Compiling #{f} ..."
+      print "[Init] Compiling #{f} ..."
       _, err, exit = execute"cc -o 'build/#{f}'.out 'days/#{f}'"
 
       if exit > 0
         -- If we failed to compile, then we don't actually want to exec
         -- later, so we just return the compilation error, the code and
         -- "Failed to compile". Everything else is handled normally
-        print ansi "%{bright red}[Init]%{reset}   Failed to compile (exit: #{exit})"
+        print "[Init]   Failed to compile (exit: #{exit})"
         sln = Solution tonumber(d), tonumber(p), nil, "extern",
           => return "Failed to compile", "\n#{err}", exit
         sln.source = f
@@ -242,7 +243,7 @@ for f in lfs.dir"days"
 
       -- Otherwise, we queue up a Solution that runs the file. Execution
       -- is handled as normal from there on.
-      print ansi "#{init}   Success, creating runner for #{f}"
+      print "#{init}   Success, creating runner for #{f}"
       sln = Solution tonumber(d), tonumber(p), nil, "extern",
         => execute"'build/#{f}'.out"
       sln.source = f
