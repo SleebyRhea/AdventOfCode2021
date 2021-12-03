@@ -1,7 +1,4 @@
 #!/bin/sh
-#
-#
-#
 
 file=input/day1_depths.input
 
