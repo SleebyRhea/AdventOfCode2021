@@ -224,8 +224,11 @@ for f in lfs.dir"days"
       d, p, _ = f\match("day(%d+)part(%d+)n?%d-%.c$")
       continue unless d and p
 
+      if not lfs.attributes"build"
+        assert lfs.mkdir"build", "failed to make build"
+
       print ansi "%{yellow}[Init]%{reset} Compiling #{f} ..."
-      _, err, exit = execute"cc -o 'days/#{f}'.o 'days/#{f}'"
+      _, err, exit = execute"cc -o 'build/#{f}'.o 'days/#{f}'"
 
       if exit > 0
         -- If we failed to compile, then we don't actually want to exec
@@ -241,7 +244,7 @@ for f in lfs.dir"days"
       -- is handled as normal from there on.
       print ansi "#{init}   Success, creating runner for #{f}"
       sln = Solution tonumber(d), tonumber(p), nil, "extern",
-        => execute"'days/#{f}'.o"
+        => execute"'build/#{f}'.o"
       sln.source = f
 
 
