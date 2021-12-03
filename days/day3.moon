@@ -20,6 +20,7 @@ slurp = (f) ->
   return tmp
 
 -- Power of 2 based conversion of a bitfield string into a decimal number 
+--  Add the power of 2 to the "iter" for each one in a bitfield
 binary_to_number = (binary) ->
   assert (type(binary) == "string"), "binary_to_number expects a string"
   number = 0
@@ -193,6 +194,8 @@ Solution 3, 2, "day3.input", part1_problem, =>
         else
           filtered_oxy_want = "0"
 
+      -- Run a filter on oxygen_filter looking for values in the "oxy_iter"
+      -- field that match the desired bit (1 or 0)
       filter oxygen_filter, (binary) ->
         bit = binary\match("(.)", oxy_iter)
         if bit == filtered_oxy_want
