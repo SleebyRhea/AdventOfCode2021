@@ -2,12 +2,14 @@
 FILE=input/day1_depths.input
 . ./adventofcode.sh
 
+if test "$SKIPSLOWRUNS" = 1
+then
+  echo 'Skipped ($SKIPSLOWRUNS=1)'
+  exit 0
+fi
+
 Main ()
-{
-  a=0
-  b=0
-  c=0
-  count=0
+{ a=0 ; b=0 ; c=0 ; count=0
 
   while read -r n
   do
@@ -34,10 +36,4 @@ Main ()
   echo "$count"
 }
 
-if ! test "$SKIPSLOWRUNS" = 1
-then
-  Main "$@"
-  exit 0
-fi
-
-echo 'Skipped ($SKIPSLOWRUNS=1)'
+Main "$@"
