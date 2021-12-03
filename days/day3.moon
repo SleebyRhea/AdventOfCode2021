@@ -98,7 +98,7 @@ slurp = (f) ->
   return tmp
 
 -- Power of 2 based conversion of a bitfield string into a decimal number 
---  Add the power of 2 to the "iter" for each one in a bitfield
+--  Add the power of "2 to the iter" for each bit in a bitfield
 binary_to_number = (binary) ->
   assert (type(binary) == "string"), "binary_to_number expects a string"
   number = 0
@@ -309,7 +309,6 @@ Solution 3, 2, "day3.input", part2_problem, =>
           table.insert new_co2_filter, binary
 
       carbon_filter = new_co2_filter
-
     -- Convert our only table value ([1]) into a decimal number
     o_rating = binary_to_number oxygen_filter[1]
     c_rating = binary_to_number carbon_filter[1]
