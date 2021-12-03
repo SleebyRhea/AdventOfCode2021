@@ -21,6 +21,15 @@ if not ok
 lfs  = require"lfs"
 ansi = require"ansicolors"
 
+import
+  assert_tbl
+  assert_num
+  assert_str
+  assert_bln
+  assert_usr
+  assert_fun
+  from require"lib/aoc"
+
 -- Type assertions
 assert_tbl = (t, err) -> t if assert (type(t) == 'table'), err
 assert_num = (n, err) -> n if assert (type(n) == 'number'), err
@@ -158,7 +167,12 @@ export class Solution
           if source_to_lang(a.source) != "Moonscript"
             filet = "#{a.source}"
 
-          out, err, _ = a\get!
+          out, err, exit = nil, nil, nil
+          ok, msg = pcall ->
+            out, err, exit = a\get!
+          if not ok
+            print "(Sln ##{alt}/#{filet})> Caught error!"
+            print "#{msg}"
 
           if type(out == 'string') and  string.len(out) == 0
             out = nil
@@ -168,7 +182,7 @@ export class Solution
             continue
 
           -- External program output
-          --print "(Sln ##{alt}/#{filet})> #{out or "empty"}"
+          print "(Sln ##{alt}/#{filet})> #{out or "empty"}"
           if err != "" and err != nil
             print "\t#{err}"
 
