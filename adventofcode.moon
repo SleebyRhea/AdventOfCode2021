@@ -228,7 +228,7 @@ for f in lfs.dir"days"
         assert lfs.mkdir"build", "failed to make build"
 
       print ansi "%{yellow}[Init]%{reset} Compiling #{f} ..."
-      _, err, exit = execute"cc -o 'build/#{f}'.o 'days/#{f}'"
+      _, err, exit = execute"cc -o 'build/#{f}'.out 'days/#{f}'"
 
       if exit > 0
         -- If we failed to compile, then we don't actually want to exec
@@ -244,7 +244,7 @@ for f in lfs.dir"days"
       -- is handled as normal from there on.
       print ansi "#{init}   Success, creating runner for #{f}"
       sln = Solution tonumber(d), tonumber(p), nil, "extern",
-        => execute"'build/#{f}'.o"
+        => execute"'build/#{f}'.out"
       sln.source = f
 
 
