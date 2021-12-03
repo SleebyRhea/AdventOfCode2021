@@ -6,10 +6,88 @@ import
   open
   from io
 
-part1_problem = [[  ]]
+part1_problem = [[
+  Each bit in the gamma rate can be determined by finding
+  the most common bit in the corresponding position of all numbers in the
+  diagnostic report. Example:
 
-debug = (want) ->
-  require"moon".p want
+    00100
+    11110
+    10110
+    10111
+    10101
+    01111
+    00111
+    11100
+    10000
+    11001
+    00010
+    01010
+
+  Considering only the first bit of each number, there are five 0 bits and
+  seven 1 bits. Since the most common bit is 1, the first bit of the gamma
+  rate is 1.
+
+  The most common second bit of the numbers in the diagnostic report is 0,
+  so the second bit of the gamma rate is 0.
+
+  The most common value of the third, fourth, and fifth bits are 1, 1, and
+  0, respectively, and so the final three bits of the gamma rate are 110.
+
+  So, the gamma rate is the binary number 10110, or 22 in decimal.
+
+  The epsilon rate is calculated in a similar way; rather than use the most
+  common bit, the least common bit from each position is used. So, the
+  epsilon rate is 01001, or 9 in decimal. Multiplying the gamma rate (22)
+  by the epsilon rate (9) produces the power consumption, 198.
+
+  Use the binary numbers in your diagnostic report to calculate the gamma
+  rate and epsilon rate, then multiply them together. What is the power
+  consumption of the submarine? (Be sure to represent your answer in decimal,
+  not binary.)
+]]
+
+part2_problem = [[
+  Next, you should verify the life support rating, which can be determined
+  by multiplying the oxygen generator rating by the CO2 scrubber rating.
+
+  Both the oxygen generator rating and the CO2 scrubber rating are values
+  that can be found in your diagnostic report - finding them is the tricky
+  part. Both values are located using a similar process that involves
+  filtering out values until only one remains. Before searching for either
+  rating value, start with the full list of binary numbers from your
+  diagnostic report and consider just the first bit of those numbers.
+  Then:
+
+  Keep only numbers selected by the bit criteria for the type of rating
+  value for which you are searching. Discard numbers which do not match
+  the bit criteria.
+
+  If you only have one number left, stop; this is the rating value for
+  which you are searching. Otherwise, repeat the process, considering the
+  next bit to the right.
+
+  The bit criteria depends on which type of rating value you want to find:
+
+  Oxygen:
+    To find oxygen generator rating, determine the most common value
+    (0 or 1) in the current bit position, and keep only numbers with that
+    bit in that position. If 0 and 1 are equally common, keep values with
+    a 1 in the position being considered.
+  
+  Carbon
+    To find CO2 scrubber rating, determine the least common value (0 or 1)
+    in the current bit position, and keep only numbers with that bit in
+    that position. If 0 and 1 are equally common, keep values with a 0 in
+    the position being considered.
+    
+  Use the binary numbers in your diagnostic report to calculate the oxygen
+  generator rating and CO2 scrubber rating, then multiply them together.
+  What is the life support rating of the submarine? (Be sure to represent
+  your answer in decimal, not binary.)
+]]
+
+debug = (want) -> require"moon".p want
 
 -- Return the contents of our file, and make sure the handle is closed
 slurp = (f) ->
@@ -38,24 +116,33 @@ filter = (bindata,func) ->
   for _, binary in ipairs bindata
     func(binary)
 
+  
 -- Solution 3/1
---
--- 
--- 
--- 
---
+--  Determine the Gamma and Epsilon values given binary inputs and 
+--  calculate the power rating from those value by multiplying them
+--  together once acquired. 
 Solution 3, 1, "day3.input", part1_problem, =>
   gamma, espilon = 0, 0
-
-  table.concat = (tbl) ->
-    newstring = ""
-    for v in ipairs tbl
-      newstring = "#{newstring}#{v}"
-    return newstring
-
-
   l_one_unpack = {}
   data = slurp @file
+  
+  -- Restructure the binary inputs such that they are converted as follows:
+  --
+  -- From:
+  --   1 1 1 0 
+  --   1 0 0 0
+  --   1 0 0 0 
+  --   1 1 1 0
+  --
+  -- To:
+  --
+  --   1 1 1 1
+  --   1 0 0 1
+  --   1 0 0 1
+  --   0 0 0 0
+  -- 
+  -- This makes it easier to operate on later, as we only need a single loop
+  -- for Gamma and Epsilon
   for binary in string.gmatch(data, "[0-1]+")
     i = 1
     for bit in binary\gmatch"."
@@ -63,8 +150,11 @@ Solution 3, 1, "day3.input", part1_problem, =>
       table.insert l_one_unpack[i],tonumber(bit)
       i += 1
       
-  -- Unpack our tables into strings
+  -- Pack our tables into strings, based on whether or not 1s or 0s are
+  -- are more common. If zeros were more common than ones, add a 0 to gamma
+  -- and a 1 to epsilon. Else, the opposite.
   gamma_string = ""
+  epsilon_string = ""
   for _, binary in ipairs l_one_unpack
     zero = 0
     one  = 1
@@ -77,38 +167,22 @@ Solution 3, 1, "day3.input", part1_problem, =>
     
     if zero > one
       gamma_string = "#{gamma_string}0"
+      epsilon_string = "#{epsilon_string}1"
     else
       gamma_string = "#{gamma_string}1"
-
-
-  epsilon_string = ""
-  for _, binary in ipairs l_one_unpack
-    zero = 0
-    one  = 1
-    for _, bit in ipairs binary
-      switch bit
-        when 0
-          zero += 1
-        when 1
-          one += 1
-    
-    if zero < one
       epsilon_string = "#{epsilon_string}0"
-    else
-      epsilon_string = "#{epsilon_string}1"
 
+  -- Convert those strings into decimal
   gamma   = binary_to_number gamma_string
   epsilon = binary_to_number epsilon_string
 
+  -- Multiply
   return epsilon * gamma
 
 
 -- Solution 3/2 
---  Sort through binary inputs searching for 
---
---
--- 
---
+--  Filter Oxygen and Carbon values and calcalute the life support rating
+--  using the Diagnostic data from part 1
 Solution 3, 2, "day3.input", part1_problem, =>
   data     = slurp @file
 
