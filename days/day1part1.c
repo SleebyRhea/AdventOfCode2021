@@ -1,7 +1,6 @@
 #include "../adventofcode.h"
 
 #define __INPUT_FILE  "input/day1_depths.input"
-#define __ZERO        "0"
 
 long long castAway(char *word, long long depth, long long *count);
 
