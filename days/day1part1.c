@@ -55,18 +55,14 @@ int main()
 /**
  * @brief Cast word into the depths
  * 
- * @param word 
- * @param depth 
- * @param count 
+ * @param word  String to atoll()
+ * @param depth Current depth
+ * @param count Pointer to Current count
  * 
- * @return long long 
+ * @return long long  New depth
  */
 long long castAway(char *word, long long depth, long long *count)
 {
-#ifdef __DEBUG
-  fprintf(stderr, "castAway(_,_,_): casting the word %s into a long long\n", word);
-#endif
-
   long long willItNumber;
   long long newCount = 0;
   willItNumber = atoll(word);
@@ -74,18 +70,8 @@ long long castAway(char *word, long long depth, long long *count)
   // It did indeed long long
   if (willItNumber > 0 || strcmp(word,__ZERO))
   {
-#ifdef __DEBUG
-    fprintf(stderr, "castAway(_,_,_): it made a long long (%llu) :)\n", willItNumber);
-    fprintf(stderr, "castAway(_,_,_): testing the depths of (%llu) :)\n", depth);
-    fprintf(stderr, "castAway(_,_,_): testing the count of (%llu) :)\n", *count);
-#endif
     if ( willItNumber > depth )
-    { 
-#ifdef __DEBUG
-      fprintf(stderr, "castAway(_,_,_): Its bigger than the last depth!\n");
-#endif
-      newCount = *count + 1; *count = newCount;
-    }
+      { newCount = *count + 1; *count = newCount; }
     return willItNumber;
   }
 
