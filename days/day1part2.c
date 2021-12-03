@@ -87,9 +87,6 @@ void slidingdoor_push(slidingdoor *door, long long value)
   door->c = door->b;
   door->b = door->a;
   door->a = value;
-// #ifdef __DEBUG
-// fprintf(stderr, "a%llu | b%llu | c%llu\n", door->a, door->b, door->c);
-// #endif
 }
 
 
@@ -118,19 +115,17 @@ long long slidingdoor_sum(slidingdoor *door)
  */
 void castAway(char *word, slidingdoor *door, long long *count)
 {
-  long long willItNumber;
+  long long willItNumber, previousSum, newSum;
   long long newCount = 0;
   willItNumber = atoll(word);
 
   // It did indeed long long
   if (willItNumber > 0 || strcmp(word,__ZERO))
   {
-    long long previousSum = slidingdoor_sum(door);
+    previousSum = slidingdoor_sum(door);
     slidingdoor_push(door, willItNumber);
-    long long newSum = slidingdoor_sum(door);
-#ifdef __DEBUG
-    fprintf(stderr, "new:%llu, old:%llu\n", newSum, previousSum);
-#endif
+    newSum = slidingdoor_sum(door);
+
     if ( newSum && previousSum && (newSum > previousSum) )
       { newCount = *count + 1; *count = newCount; }
   }
