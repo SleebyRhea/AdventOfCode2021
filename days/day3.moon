@@ -183,7 +183,7 @@ Solution 3, 1, "day3.input", part1_problem, =>
 -- Solution 3/2 
 --  Filter Oxygen and Carbon values and calcalute the life support rating
 --  using the Diagnostic data from part 1
-Solution 3, 2, "day3.input", part1_problem, =>
+Solution 3, 2, "day3.input", part2_problem, =>
   data     = slurp @file
 
   -- Final resting place for our data
