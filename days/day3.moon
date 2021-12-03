@@ -94,18 +94,19 @@ Solution 3, 1, "day3.input", part1_problem, =>
 
 Solution 3, 2, "day3.input", part1_problem, =>
   data     = slurp @file
-  o_rating = 0
-  c_rating = 0
 
-  -- Anonymous function to run a function on a table
+  -- Anonymous function to run a function on a table. This is useful
+  -- for filtration, and is pretty much just sugar for a for/do loop
   filter = (bindata,func) ->
     for _, binary in ipairs bindata
       func(binary)
 
-  -- Get oxygen numbeers
+  -- Final resting place for our data
   original_data = {}
   oxygen_filter = {}
   carbon_filter = {}
+  o_rating = 0
+  c_rating = 0
 
   for binary in data\gmatch("[0-1]+")
     table.insert original_data, binary
@@ -139,69 +140,67 @@ Solution 3, 2, "day3.input", part1_problem, =>
         when cwant
           table.insert carbon_filter, binary
 
-    do
-      oxy_iter = 1
-      while #oxygen_filter > 1
-        filtered_oxy_want  = nil
-        filtered_oxy_ones  = 0
-        filtered_oxy_zeros = 0
+    oxy_iter = 1
+    while #oxygen_filter > 1
+      filtered_oxy_want  = nil
+      filtered_oxy_ones  = 0
+      filtered_oxy_zeros = 0
 
-        new_oxy_filter = {}
-        oxy_iter += 1
+      new_oxy_filter = {}
+      oxy_iter += 1
 
-        filter oxygen_filter, (binary) ->
-          bit = binary\match(".",oxy_iter)
-          switch bit
-            when "1"
-              filtered_oxy_ones += 1
-            when "0"
-              filtered_oxy_zeros += 1
-          if filtered_oxy_ones > filtered_oxy_zeros
-            filtered_oxy_want = "1"
-          elseif filtered_oxy_ones == filtered_oxy_zeros
-            filtered_oxy_want = "1"
-          else
-            filtered_oxy_want = "0"
+      filter oxygen_filter, (binary) ->
+        bit = binary\match(".",oxy_iter)
+        switch bit
+          when "1"
+            filtered_oxy_ones += 1
+          when "0"
+            filtered_oxy_zeros += 1
+        if filtered_oxy_ones > filtered_oxy_zeros
+          filtered_oxy_want = "1"
+        elseif filtered_oxy_ones == filtered_oxy_zeros
+          filtered_oxy_want = "1"
+        else
+          filtered_oxy_want = "0"
 
-        filter oxygen_filter, (binary) ->
-          bit = binary\match("(.)", oxy_iter)
-          if bit == filtered_oxy_want
-            table.insert new_oxy_filter, binary
+      filter oxygen_filter, (binary) ->
+        bit = binary\match("(.)", oxy_iter)
+        if bit == filtered_oxy_want
+          table.insert new_oxy_filter, binary
 
-        oxygen_filter = new_oxy_filter
+      oxygen_filter = new_oxy_filter
 
 
-    do
-      co2_iter = 1
-      while #carbon_filter > 1
-        filtered_co2_want  = nil
-        filtered_co2_ones  = 0
-        filtered_co2_zeros = 0
+    co2_iter = 1
+    while #carbon_filter > 1
+      filtered_co2_want  = nil
+      filtered_co2_ones  = 0
+      filtered_co2_zeros = 0
 
-        new_co2_filter = {}
-        co2_iter += 1
+      new_co2_filter = {}
+      co2_iter += 1
 
-        filter carbon_filter, (binary) ->
-          bit = binary\match(".",co2_iter)
-          switch bit
-            when "1"
-              filtered_co2_ones += 1
-            when "0"
-              filtered_co2_zeros += 1
-          
-          if filtered_co2_ones < filtered_co2_zeros
-            filtered_co2_want = "1"
-          elseif filtered_co2_ones == filtered_co2_zeros
-            filtered_co2_want = "0"
-          else
-            filtered_co2_want = "0"
+      filter carbon_filter, (binary) ->
+        bit = binary\match(".",co2_iter)
+        switch bit
+          when "1"
+            filtered_co2_ones += 1
+          when "0"
+            filtered_co2_zeros += 1
+        
+        if filtered_co2_ones < filtered_co2_zeros
+          filtered_co2_want = "1"
+        elseif filtered_co2_ones == filtered_co2_zeros
+          filtered_co2_want = "0"
+        else
+          filtered_co2_want = "0"
 
-        filter carbon_filter, (binary) ->
-          bit = binary\match("(.)", co2_iter)
-          if bit == filtered_co2_want
-            table.insert new_co2_filter, binary
+      filter carbon_filter, (binary) ->
+        bit = binary\match("(.)", co2_iter)
+        if bit == filtered_co2_want
+          table.insert new_co2_filter, binary
 
-        carbon_filter = new_co2_filter
+      carbon_filter = new_co2_filter
 
     o_rating = binary_to_number oxygen_filter[1]
     c_rating = binary_to_number carbon_filter[1]
