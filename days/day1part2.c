@@ -1,6 +1,6 @@
 #include "../adventofcode.h"
 
-#define __INPUT_FILE  "input/day1_depths.input"
+#define __INPUT_FILE  "input/day1.input"
 
 typedef struct slidingdoor
 {

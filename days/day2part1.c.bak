@@ -1,6 +1,6 @@
 #include "../adventofcode.h"
 
-#define __INPUT_FILE  "input/day1_depths.input"
+#define __INPUT_FILE  "input/day1.input"
 #define __UP            "up"
 #define __DOWN          "down"
 #define __FORWARD       "forward"

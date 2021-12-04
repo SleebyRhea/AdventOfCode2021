@@ -2,11 +2,10 @@ Solution = Solution or ->
   print"Dont run this directly"
   os.exit 1
 
-import
-  open
-  from io
+[[
+  Day 1 Part 1
+  ============
 
-part1_problem = [[
   The first order of business is to figure out how quickly the depth
   increases, just so you know what you're dealing with - you never know if
   the keys will get carried into deeper water by an ocean current or a fish
@@ -29,7 +28,11 @@ part1_problem = [[
     263 (increased)
 ]]
 
-part2_problem = [[
+
+[[
+  Day 1 Part 2
+  ============
+
   Your goal now is to count the number of times the sum of measurements in
   this sliding window increases from the previous sum. So, compare A with
   B, then compare B with C, then C with D, and so on. Stop when there
@@ -57,18 +60,11 @@ part2_problem = [[
     H: 792 (increased)
 ]]
 
--- Return the contents of our file, and make sure the handle is closed
-slurp = (f) ->
-  tmp = nil
-  with assert open(f, "r"), "Failed to open input file #{f}!"
-    tmp = \read("*a")
-    assert \close!, "Failed to close #{f}!"
-  return tmp
-
-  
 -- Simply, count the number of times that the previous depth was lower
 -- than the current depth.
-Solution 1, 1, "day1_depths.input", part1_problem, =>
+Solution 1, 1, "day1.input", =>
+  import slurp from require "lib.aoc"
+
   with depths = slurp @file
     -- Init count to -1 for to minimize conditionals. last for clarity.
     count, last = -1, 0
@@ -85,7 +81,9 @@ Solution 1, 1, "day1_depths.input", part1_problem, =>
 -- Emulate a stack for the sliding door algorithm, and rotate variables
 --  a, b, and c. Sum every loop and return the number of times those sums
 --  were greater than the previous sum.
-Solution 1, 2, "day1_depths.input", part2_problem, =>
+Solution 1, 2, "day1.input", =>
+  import slurp from require "lib.aoc"
+
   -- Our sliding door. a, b, c are the "stack" and the function load_number
   --  rotates those variables on call.
   a,b,c = nil,nil,nil

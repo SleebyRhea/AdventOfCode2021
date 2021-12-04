@@ -6,7 +6,10 @@ import
   open
   from io
 
-Solution 2, 1, "day2_paths.input", [[
+[[
+  Day 2 Part 1
+  ============
+
   Your horizontal position and depth both start at 0. The steps above would
   then modify them as follows:
 
@@ -22,37 +25,12 @@ Solution 2, 1, "day2_paths.input", [[
 
   Calculate the horizontal position and depth you would have after following
    the planned course. What do you get if you multiply your final horizontal
-     position by your final depth? ]], =>
-  doc = nil
-  with assert open(@file, "r"), "Failed to open input file #{@file}!"
-    doc = \read("*a")
-    assert \close!, "Failed to close #{@file}!"
+     position by your final depth? ]]
 
-  x, y = 0, 0
+[[
+  Day 2 Part 2
+  ============
 
-  increment = (word, digit) ->
-    assert (type(word) == 'string'), "Not a string"
-    assert (type(digit) == 'number'), "Not a number (#{digit})"
-
-    switch word
-      when 'forward'
-        x += digit
-      when 'back' --just going to assume thats a thing in p2
-        x -= digit
-      when 'up'
-        y -= digit
-      when 'down'
-        y += digit
-
-  for word, digit in string.gmatch(doc, "(%w+)%s+(%d+)")
-    ok, n = pcall -> tonumber(digit)
-    continue if not ok or not word or not digit
-    increment word, n
-  
-  return x * y
-
-
-Solution 2, 2, "day2_paths.input", [[
   In addition to horizontal position and depth, you'll also need to track a
   third value, aim, which also starts at 0. The commands also mean something
    entirely different than you first thought:
@@ -81,7 +59,37 @@ Solution 2, 2, "day2_paths.input", [[
   osition and depth you would have after following the planned course. What
   do you get if you multiply your final horizontal position by your final
   depth?
-]], =>
+]]
+
+Solution 2, 1, "day2.input", =>
+  doc = nil
+  with assert open(@file, "r"), "Failed to open input file #{@file}!"
+    doc = \read("*a")
+    assert \close!, "Failed to close #{@file}!"
+
+  x, y = 0, 0
+
+  increment = (word, digit) ->
+    assert (type(word) == 'string'), "Not a string"
+    assert (type(digit) == 'number'), "Not a number (#{digit})"
+
+    switch word
+      when 'forward'
+        x += digit
+      when 'up'
+        y -= digit
+      when 'down'
+        y += digit
+
+  for word, digit in string.gmatch(doc, "(%w+)%s+(%d+)")
+    ok, n = pcall -> tonumber(digit)
+    continue if not ok or not word or not digit
+    increment word, n
+  
+  return x * y
+
+
+Solution 2, 2, "day2.input", =>
   doc = nil
 
   with assert open(@file, "r"), "Failed to open input file #{@file}!"
@@ -98,8 +106,6 @@ Solution 2, 2, "day2_paths.input", [[
       when 'forward'
         x += digit
         y += z * digit
-      when 'back'   --just going to assume thats a thing in p2
-        x -= digit  -- Leaving it here, but was wrong
       when 'up'
         z -= digit
       when 'down'

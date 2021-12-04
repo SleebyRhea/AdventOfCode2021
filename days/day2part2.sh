@@ -1,5 +1,5 @@
 #!/bin/sh
-FILE=input/day2_paths.input
+FILE=input/day2.input
 . ./adventofcode.sh
 
 if test "$SKIPSLOWRUNS" = 1

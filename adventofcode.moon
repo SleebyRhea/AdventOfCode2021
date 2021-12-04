@@ -22,6 +22,7 @@ lfs  = require"lfs"
 ansi = require"ansicolors"
 
 import
+  slurp
   assert_tbl
   assert_num
   assert_str
@@ -36,15 +37,6 @@ _G.string.chomp = =>
   @ = @\match "^%s*(.-)%s*$"
   @ = @\gsub "\n$", ""
   return @
-
-
--- Return the contents of our file, and make sure the handle is closed
-slurp = (f) ->
-  tmp = nil
-  with assert io.open(f, "r"), "Failed to open input file #{f}!"
-    tmp = \read("*a")
-    assert \close!, "Failed to close #{f}!"
-  return tmp
 
 
 -- Execute the given command and return the Stdout, Stderr, and Code of
@@ -115,9 +107,8 @@ export class Solution
     answers[_day][_part] = {} if answers[_day][_part] == nil
 
   -- Instance methods
-  new: (_day, _part, _file, _name, _func, _source_file) =>
+  new: (_day, _part, _file, _func, _source_file) =>
     assert_num _day, "day must be a number (Got: #{_day})"
-    assert_str _name, "name must be a string (Got: #{_name})"
     assert_fun _func, "func must be a function (Got: #{_func})"
     assert_num _part, "part must be a number (Got: #{_part})"
 
@@ -129,7 +120,6 @@ export class Solution
       assert_str _source_file, "sourcefile must be a string (Got: #{_source_file})"
 
     make_part _day, _part
-    @name   = _name
     @func   = _func
     @file   = (_file and "input/#{_file}" or nil)
     @source = switch type(_source_file)
@@ -164,7 +154,8 @@ export class Solution
             out, err, exit = a\get!
           if not ok
             print "(Sln ##{alt}/#{filet})> Caught error!"
-            print "#{msg}"
+            print "#{msg}" if type(msg) == 'string'
+            continue
 
           if type(out == 'string') and  string.len(out) == 0
             out = nil
@@ -202,7 +193,7 @@ for f in lfs.dir"days"
       continue unless d and p
 
       print "#{init} Creating runner for #{f}"
-      sln = Solution tonumber(d), tonumber(p), nil, "extern",
+      sln = Solution tonumber(d), tonumber(p), nil,
         => execute"sh 'days/#{f}'"
       sln.source = f
 
@@ -212,7 +203,7 @@ for f in lfs.dir"days"
       continue unless d and p
 
       print "#{init} Creating runner for #{f}"
-      sln = Solution tonumber(d), tonumber(p), nil, "extern",
+      sln = Solution tonumber(d), tonumber(p), nil,
         => execute"python3 'days/#{f}'"
       sln.source = f
 
@@ -222,7 +213,7 @@ for f in lfs.dir"days"
       continue unless d and p
 
       print "#{init} Creating runner for #{f}"
-      sln = Solution tonumber(d), tonumber(p), nil, "extern",
+      sln = Solution tonumber(d), tonumber(p), nil,
         => execute"wrenc 'days/#{f}'"
       sln.source = f
 
@@ -242,7 +233,7 @@ for f in lfs.dir"days"
         -- later, so we just return the compilation error, the code and
         -- "Failed to compile". Everything else is handled normally
         print "[Init]   Failed to compile (exit: #{exit})"
-        sln = Solution tonumber(d), tonumber(p), nil, "extern",
+        sln = Solution tonumber(d), tonumber(p), nil,
           => return "Failed to compile", "\n#{err}", exit
         sln.source = f
         continue
@@ -250,7 +241,7 @@ for f in lfs.dir"days"
       -- Otherwise, we queue up a Solution that runs the file. Execution
       -- is handled as normal from there on.
       print "#{init}   Success, creating runner for #{f}"
-      sln = Solution tonumber(d), tonumber(p), nil, "extern",
+      sln = Solution tonumber(d), tonumber(p), nil,
         => execute"'build/#{f}'.out"
       sln.source = f
 

@@ -15,7 +15,7 @@ debug = (want) ->
 -- Return the contents of our file, and make sure the handle is closed
 slurp = (f) ->
   tmp = nil
-  with assert open(f, "r"), "Failed to open input file #{f}!"
+  with assert io.open(f, "r"), "Failed to open input file #{f}!"
     tmp = \read("*a")
     assert \close!, "Failed to close #{f}!"
   return tmp
@@ -36,9 +36,9 @@ binary_to_number = (binary) ->
 -- Anonymous function to run a function on a table. This is useful
 -- for filtration, and is pretty much just sugar for a for/do loop
 filter = (bindata,func) ->
+  assert_tbl bindata, "Expected a table in filter" 
   for _, binary in ipairs bindata
     func(binary)
-
 
 {
   :binary_to_number
@@ -48,6 +48,7 @@ filter = (bindata,func) ->
   :assert_bln
   :assert_usr
   :assert_fun
+  :recurse
   :filter
   :debug
   :slurp

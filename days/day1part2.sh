@@ -1,5 +1,5 @@
 #!/bin/sh
-FILE=input/day1_depths.input
+FILE=input/day1.input
 . ./adventofcode.sh
 
 if test "$SKIPSLOWRUNS" = 1

@@ -2,11 +2,10 @@ Solution = Solution or ->
   print"Dont run this directly"
   os.exit 1
 
-import
-  open
-  from io
+[[
+  Day 3 part 1
+  ============
 
-part1_problem = [[
   Each bit in the gamma rate can be determined by finding
   the most common bit in the corresponding position of all numbers in the
   diagnostic report. Example:
@@ -47,7 +46,10 @@ part1_problem = [[
   not binary.)
 ]]
 
-part2_problem = [[
+[[
+  Day 3 part 2
+  ============
+
   Next, you should verify the life support rating, which can be determined
   by multiplying the oxygen generator rating by the CO2 scrubber rating.
 
@@ -89,14 +91,6 @@ part2_problem = [[
 
 debug = (want) -> require"moon".p want
 
--- Return the contents of our file, and make sure the handle is closed
-slurp = (f) ->
-  tmp = nil
-  with assert open(f, "r"), "Failed to open input file #{f}!"
-    tmp = \read("*a")
-    assert \close!, "Failed to close #{f}!"
-  return tmp
-
 -- Power of 2 based conversion of a bitfield string into a decimal number 
 --  Add the power of "2 to the iter" for each bit in a bitfield
 binary_to_number = (binary) ->
@@ -121,7 +115,9 @@ filter = (bindata,func) ->
 --  Determine the Gamma and Epsilon values given binary inputs and 
 --  calculate the power rating from those value by multiplying them
 --  together once acquired. 
-Solution 3, 1, "day3.input", part1_problem, =>
+Solution 3, 1, "day3.input", =>
+  import slurp from require"lib.aoc"
+
   gamma, espilon = 0, 0
   l_one_unpack = {}
   data = slurp @file
@@ -183,8 +179,10 @@ Solution 3, 1, "day3.input", part1_problem, =>
 -- Solution 3/2 
 --  Filter Oxygen and Carbon values and calcalute the life support rating
 --  using the Diagnostic data from part 1
-Solution 3, 2, "day3.input", part2_problem, =>
-  data     = slurp @file
+Solution 3, 2, "day3.input", =>
+  import slurp from require"lib.aoc"
+
+  data = slurp @file
 
   -- Final resting place for our data
   original_data = {}

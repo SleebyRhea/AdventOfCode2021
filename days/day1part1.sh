@@ -1,6 +1,6 @@
 #!/bin/sh
 
-file=input/day1_depths.input
+file=input/day1.input
 
 if ! test -f "$file"
 then
